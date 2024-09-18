@@ -23,4 +23,4 @@ jobs:
             docker build . -f Dockerfile -t tambetliiv/notbad:latest
         - name: push the docker image
           id: push-docker-image
-          run: docker push ${{secrets.DOCKERHUB_USERNAME}}/tambetliiv/notbad:latest
+          run: docker push tambetliiv/notbad:latest
