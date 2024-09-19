@@ -23,7 +23,7 @@ jobs:
           docker build . -f Dockerfile -t tambetliiv/notbad:latest -t tambetliiv/notbad:${{ github.sha }}
       - name: push the docker image
         id: push-docker-image
-        run: docker push tambetliiv/notbad:latest
+        run: docker push tambetliiv/notbad
       - name: deploy to eks
         uses: bitovi/github-actions-deploy-eks-helm@v1.2.10
         with:
