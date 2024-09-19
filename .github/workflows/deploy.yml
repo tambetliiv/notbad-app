@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  build:
+  build-and-deploy:
     name: push docker image to docker hub
     runs-on: ubuntu-latest
     steps:
@@ -20,7 +20,7 @@ jobs:
         id: build-docker-image
         run: |
           ls -la
-          docker build . -f Dockerfile -t tambetliiv/notbad:latest
+          docker build . -f Dockerfile -t tambetliiv/notbad:latest -t tambetliiv/notbad:$GITHUB_SHA
       - name: push the docker image
         id: push-docker-image
         run: docker push tambetliiv/notbad:latest
@@ -33,4 +33,5 @@ jobs:
           cluster-name: notbad
           config-files: helm/values.yaml
           namespace: app
-          name: app 
+          name: app
+          values: image.tag=$GITHUB_SHA
