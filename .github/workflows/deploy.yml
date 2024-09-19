@@ -1,0 +1,38 @@
+name: Build Docker Image
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    name: push docker image to docker hub
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: login to docker hub
+        id: docker-hub
+        env:
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_PASSWORD}}
+        run: |
+          docker login -u $username -p $password
+      - name: build the docker image
+        id: build-docker-image
+        run: |
+          ls -la
+          docker build . -f Dockerfile -t tambetliiv/notbad:latest
+      - name: push the docker image
+        id: push-docker-image
+        run: docker push tambetliiv/notbad:latest
+  deploy:
+    name: deploy helm chart
+    steps:
+      - uses: peymanmortazavi/eks-helm-deploy@v2.2.1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1
+          cluster-name: notbad
+          config-files: helm/values.yaml
+          namespace: app
+          name: app 
