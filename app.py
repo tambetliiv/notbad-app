@@ -8,7 +8,7 @@ def hello():
     if request.method == 'POST' and request.headers.get('NotBad')  == 'true':
         return 'ReallyNotBad'
     else:
-        return 'Hello'
+        return 'Hello 1'
 
 if __name__ == '__main__':
     app.run(debug=True)
