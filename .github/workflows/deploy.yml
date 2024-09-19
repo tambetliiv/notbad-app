@@ -24,11 +24,8 @@ jobs:
       - name: push the docker image
         id: push-docker-image
         run: docker push tambetliiv/notbad:latest
-  deploy:
-    name: deploy helm chart
-    runs-on: ubuntu-latest
-    steps:
-      - uses: peymanmortazavi/eks-helm-deploy@v2.2.1
+      - name: deploy to eks
+        uses: bitovi/github-actions-deploy-eks-helm@v1.2.10
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
